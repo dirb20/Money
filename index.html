@@ -12,39 +12,158 @@
 
 <body>
     <div class="app-container">
-        <!-- Dashboard & Ledger 視圖 -->
-        <div id="view-main" class="page-view">
-            <!-- 頂部導覽列 -->
-            <header class="top-bar">
-                <button class="icon-btn" id="manage-accounts-btn"><i class="fa-solid fa-ellipsis"></i></button>
-                <div class="segmented-control">
+
+        <!-- =================== 帳本視圖 (Ledger) =================== -->
+        <div id="view-ledger" class="page-view">
+            <header class="top-bar theme-orange">
+                <div class="top-icons left-icons">
+                    <button id="l-today-btn"
+                        style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 2px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; cursor: pointer;">今天</button>
+                </div>
+                <div class="segmented-control theme-white-border" id="l-mode-tabs">
                     <button class="active">月</button>
                     <button>年</button>
                     <button>期間</button>
                 </div>
-                <button class="icon-btn filter-btn" id="filter-btn">
-                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="6" y1="12" x2="18" y2="12"></line>
-                        <line x1="10" y1="18" x2="14" y2="18"></line>
-                    </svg>
-                </button>
+                <div class="top-icons right-icons">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <i class="fa-solid fa-expand"></i>
+                </div>
             </header>
 
-            <!-- 日期選擇器 -->
             <div class="date-selector">
-                <button class="icon-btn" id="prev-month-btn"><i class="fa-solid fa-chevron-left"
-                        style="color: #999; font-weight: 300;"></i></button>
-                <div class="current-date" id="current-month-text">
+                <button class="icon-btn" id="l-prev-month-btn"
+                    style="color: #666; font-weight: bold; font-size: 20px;">&lt;</button>
+                <div class="current-date" id="l-current-month-text">
                     <span>2026年3月</span>
                     <i class="fa-solid fa-caret-down" style="font-size: 12px; margin-left: 4px;"></i>
                 </div>
-                <button class="icon-btn" id="next-month-btn"><i class="fa-solid fa-chevron-right"
-                        style="color: #999; font-weight: 300;"></i></button>
+                <button class="icon-btn" id="l-next-month-btn"
+                    style="color: #666; font-weight: bold; font-size: 20px;">&gt;</button>
             </div>
 
-            <!-- 頁籤 -->
+            <div class="tabs">
+                <button class="tab active" id="ledger-tab-calendar">行事曆</button>
+                <button class="tab" id="ledger-tab-list">清單</button>
+            </div>
+
+            <!-- Calendar Sub-view -->
+            <div id="ledger-calendar-view" class="sub-view">
+                <div class="calendar-container">
+                    <div class="cal-header">
+                        <div>週一</div>
+                        <div>週二</div>
+                        <div>週三</div>
+                        <div>週四</div>
+                        <div>週五</div>
+                        <div>週六</div>
+                        <div>週日</div>
+                    </div>
+                    <div class="cal-body" id="cal-body">
+                        <!-- JS 動態生成日曆 -->
+                    </div>
+                </div>
+                <div class="daily-summary">
+                    支出: <span id="daily-total-exp">0</span>
+                </div>
+                <div class="daily-transactions" id="daily-transactions">
+                    <!-- JS 動態生成當日明細 -->
+                </div>
+
+                <!-- 底部廣告假圖 (已移除) -->
+            </div>
+
+            <!-- List Sub-view -->
+            <div id="ledger-list-view" class="sub-view hidden">
+                <div class="list-tabs-container">
+                    <div class="list-tabs">
+                        <button class="active" id="list-tab-exp-inc">收支</button>
+                        <button id="list-tab-transfer">轉帳</button>
+                        <button id="list-tab-all">收支+轉帳</button>
+                    </div>
+                </div>
+                <div class="list-summary">
+                    <div class="summary-col">
+                        <span class="val text-green" id="list-total-inc">0</span>
+                        <span class="lbl" style="color: #666; font-size: 14px;">收入</span>
+                    </div>
+                    <div class="summary-col">
+                        <span class="val text-red" id="list-total-exp">0</span>
+                        <span class="lbl" style="color: #666; font-size: 14px;">支出</span>
+                    </div>
+                    <div class="summary-col">
+                        <span class="val text-red" id="list-total-net" style="color: #333;">0</span>
+                        <span class="lbl" style="color: #666; font-size: 14px;">合計</span>
+                    </div>
+                </div>
+                <div class="list-transactions" id="list-transactions">
+                    <!-- JS 動態生成依日期分組的清單 -->
+                </div>
+
+                <!-- ad removed -->
+            </div>
+        </div>
+
+        <!-- =================== 帳戶視圖 (Accounts) =================== -->
+        <div id="view-accounts" class="page-view hidden">
+            <header class="top-bar theme-orange">
+                <div class="top-icons left-icons text-white-links" style="font-size: 16px;">
+                    <span style="margin-right: -4px;">編輯</span>
+                    <span style="margin-left: -4px;">轉帳</span>
+                </div>
+                <div style="flex: 1; text-align: center; font-weight: bold; font-size: 18px; color: white;">帳戶管理</div>
+                <div class="top-icons right-icons">
+                    <i class="fa-solid fa-ellipsis"></i>
+                    <i class="fa-solid fa-credit-card" id="page-add-acc-btn"></i>
+                </div>
+            </header>
+
+            <div class="account-overview">
+                <div class="net-worth-container">
+                    <div class="net-worth text-green" id="acc-net-worth">$0</div>
+                    <div class="net-worth-lbl"
+                        style="text-align: center; color: #666; font-size: 14px; margin-top: 4px;">淨資產</div>
+                </div>
+                <div class="acc-stats">
+                    <div class="stat-col text-green">
+                        <span class="val" id="acc-total-assets">0</span>
+                        <span class="lbl">總資產</span>
+                    </div>
+                    <div class="stat-col text-red">
+                        <span class="val" id="acc-total-liab">0</span>
+                        <span class="lbl">負債</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="account-lists" id="account-lists">
+                <!-- JS 動態生成分類帳戶列表 -->
+            </div>
+
+            <!-- ad removed -->
+        </div>
+
+        <!-- =================== 圖表分析與其他功能視圖 (原主畫面) =================== -->
+        <div id="view-chart" class="page-view hidden">
+            <header class="top-bar" style="background: #f7941d; color: white;">
+                <div style="width: 24px;"></div>
+                <div style="flex: 1; text-align: center; font-weight: bold; font-size: 18px; color: white;">圖表分析</div>
+                <button class="icon-btn filter-btn" id="filter-btn" style="color: white;">
+                    <i class="fa-solid fa-filter"></i>
+                </button>
+            </header>
+
+            <div class="date-selector">
+                <button class="icon-btn" id="c-prev-month-btn"
+                    style="color: #666; font-weight: bold; font-size: 20px;">&lt;</button>
+                <div class="current-date" id="c-current-month-text">
+                    <span>2026年3月</span>
+                    <i class="fa-solid fa-caret-down" style="font-size: 12px; margin-left: 4px;"></i>
+                </div>
+                <button class="icon-btn" id="c-next-month-btn"
+                    style="color: #666; font-weight: bold; font-size: 20px;">&gt;</button>
+            </div>
+
             <div class="tabs">
                 <button class="tab active">支出類別比</button>
                 <button class="tab">支出帳戶比</button>
@@ -53,73 +172,45 @@
 
             <main class="main-content">
                 <div class="left-panel">
-                    <!-- 總計區塊 -->
                     <section class="summary-section">
-                        <div class="summary-item">合計: <span>16,394</span></div>
-                        <div class="summary-item">平均每天: <span>4,099</span></div>
+                        <div class="summary-item">合計: <span id="chart-total-exp">0</span></div>
+                        <div class="summary-item">平均每天: <span id="chart-avg-exp">0</span></div>
                     </section>
-
-                    <!-- 表格區塊 -->
                     <section class="table-section">
                         <div class="table-header">
-                            <div class="col-id">
-                                <button class="sort-btn">#<i class="fa-solid fa-caret-down"></i></button>
-                            </div>
+                            <div class="col-id">#</div>
                             <div class="col-cat">類別 / 說明</div>
                             <div class="col-amt">金額</div>
                             <div class="col-ratio">比例</div>
                             <div class="col-action"></div>
                         </div>
-                        <div class="table-body" id="table-body">
-                            <!-- JavaScript 將在此處動態生成資料 -->
-                        </div>
+                        <div class="table-body" id="table-body"></div>
                     </section>
                 </div>
-
                 <div class="right-panel">
-                    <!-- 圖表區塊 -->
                     <section class="chart-section">
                         <div class="chart-container">
                             <canvas id="expenseChart"></canvas>
                         </div>
                     </section>
+                </div>
             </main>
         </div>
 
-        <!-- 帳戶視圖 -->
-        <div id="view-accounts" class="page-view hidden">
-            <header class="top-bar" style="justify-content: center; background: #fff;">
-                <h3 style="margin: 0; color: #333; font-size: 18px;">帳戶管理</h3>
-            </header>
-            <div style="padding: 20px;">
-                <div id="accounts-page-list"
-                    style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
-                    <!-- JS 生成帳戶列表 -->
-                </div>
-                <div class="form-group">
-                    <label style="font-weight: 500; margin-bottom: 8px; display: block;">新增帳戶</label>
-                    <input type="text" id="page-new-acc-name" class="form-control" placeholder="輸入帳戶名稱"
-                        autocomplete="off">
-                    <button class="btn btn-primary" id="page-add-acc-btn"
-                        style="margin-top: 10px; width: 100%;">建立帳戶</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 設定視圖 -->
+        <!-- =================== 設定視圖 =================== -->
         <div id="view-settings" class="page-view hidden">
-            <header class="top-bar" style="justify-content: center; background: #fff;">
-                <h3 style="margin: 0; color: #333; font-size: 18px;">系統設定</h3>
+            <header class="top-bar" style="justify-content: center; background: #f7941d; color: white;">
+                <h3 style="margin: 0; font-size: 18px; font-weight: bold;">系統設定</h3>
             </header>
             <div style="padding: 20px; display: flex; flex-direction: column; gap: 16px;">
                 <button class="btn btn-outline"
                     style="border: 1px solid #ccc; color: #333; padding: 16px; border-radius: 12px; background: white; text-align: left; font-size: 16px;"
-                    onclick="alert('匯出功能開發中');"><i class="fa-solid fa-file-export" style="margin-right: 12px;"></i>匯出資料
-                    (開發中)</button>
+                    onclick="alert('匯出功能開發中');"><i class="fa-solid fa-file-export"
+                        style="margin-right: 12px;"></i>匯出資料</button>
                 <button class="btn btn-outline"
                     style="border: 1px solid #ccc; color: #333; padding: 16px; border-radius: 12px; background: white; text-align: left; font-size: 16px;"
-                    onclick="alert('匯入功能開發中');"><i class="fa-solid fa-file-import" style="margin-right: 12px;"></i>匯入資料
-                    (開發中)</button>
+                    onclick="alert('匯入功能開發中');"><i class="fa-solid fa-file-import"
+                        style="margin-right: 12px;"></i>匯入資料</button>
                 <button class="btn btn-outline"
                     style="border: 1px solid #ef4444; color: #ef4444; padding: 16px; border-radius: 12px; background: #fee2e2; text-align: left; font-size: 16px; margin-top: 20px;"
                     onclick="if(confirm('確定清除所有資料嗎？')) { localStorage.clear(); location.reload(); }"><i
@@ -127,9 +218,9 @@
             </div>
         </div>
 
-        <!-- 底部導覽列 -->
+        <!-- =================== 底部導覽列 =================== -->
         <nav class="bottom-nav">
-            <div class="nav-item" data-tab="ledger">
+            <div class="nav-item active" data-tab="ledger">
                 <i class="fa-solid fa-pen-to-square"></i>
                 <span>帳本</span>
             </div>
@@ -141,7 +232,7 @@
                 <i class="fa-solid fa-plus"></i>
                 <span>記一筆</span>
             </div>
-            <div class="nav-item active" data-tab="chart">
+            <div class="nav-item" data-tab="chart">
                 <i class="fa-solid fa-chart-pie"></i>
                 <span>圖表分析</span>
             </div>
@@ -151,90 +242,183 @@
             </div>
         </nav>
 
-        <!-- Floating Action Button -->
-        <button class="fab-add" id="fab-add"><i class="fa-solid fa-plus"></i></button>
+        <!-- Floating Action Button (隱藏，因為導覽列已經有了) -->
+        <button class="fab-add hidden" id="fab-add"><i class="fa-solid fa-plus"></i></button>
 
-        <!-- 帳戶管理 Modal -->
+        <!-- =================== Modals =================== -->
+
+        <!-- 帳戶管理 / 新增帳戶 Modal -->
         <div id="account-modal" class="modal-overlay hidden">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>切換與設定帳戶</h3>
+                    <h3>新增帳戶</h3>
                     <button class="close-btn" id="close-acc-modal"><i class="fa-solid fa-times"></i></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>目前帳戶</label>
-                        <select id="acc-select" class="form-control"></select>
+                    <div class="form-group"
+                        style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column;">
+                        <label>帳戶排序與管理</label>
+                        <div id="acc-select-list" class="sortable-list"
+                            style="margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; flex: 1;">
+                        </div>
                     </div>
                     <hr style="margin: 20px 0; border: none; border-top: 1px dashed #ccc;" />
                     <div class="form-group">
                         <label>新增帳戶</label>
                         <input type="text" id="new-acc-name" class="form-control" placeholder="輸入帳戶名稱"
                             autocomplete="off">
-                        <button class="btn btn-primary" id="add-acc-btn" style="margin-top: 10px;">新增帳戶</button>
+                        <label style="margin-top: 10px;">帳戶類型</label>
+                        <select id="new-acc-type" class="form-control" style="margin-top: 4px;">
+                            <option value="cash">現金</option>
+                            <option value="bank">銀行</option>
+                            <option value="credit_card">信用卡</option>
+                            <option value="other">其他</option>
+                        </select>
+                        <button class="btn btn-primary" id="add-acc-btn"
+                            style="margin-top: 10px; background: #f7941d; border-color: #f7941d;">新增帳戶</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 新增紀錄 Modal -->
-        <div id="transaction-modal" class="modal-overlay hidden">
+        <!-- 編輯帳戶 Modal -->
+        <div id="edit-acc-modal" class="modal-overlay hidden">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>新增紀錄</h3>
-                    <button class="close-btn" id="close-tx-modal"><i class="fa-solid fa-times"></i></button>
+                    <h3>編輯或刪除帳戶</h3>
+                    <button class="close-btn" id="close-edit-acc-modal"><i class="fa-solid fa-times"></i></button>
                 </div>
                 <div class="modal-body">
-                    <div class="tx-type-toggle">
-                        <button class="type-btn active" data-type="expense">支出</button>
-                        <button class="type-btn" data-type="income">收入</button>
+                    <div class="form-group">
+                        <label>帳戶名稱</label>
+                        <input type="text" id="edit-acc-name" class="form-control" placeholder="輸入帳戶名稱"
+                            autocomplete="off">
+                        <label style="margin-top: 10px;">帳戶類型</label>
+                        <select id="edit-acc-type" class="form-control" style="margin-top: 4px;">
+                            <option value="cash">現金</option>
+                            <option value="bank">銀行</option>
+                            <option value="credit_card">信用卡</option>
+                            <option value="other">其他</option>
+                        </select>
+                        <button class="btn btn-primary" id="save-acc-btn"
+                            style="width: 100%; margin-top: 16px; background: #f7941d; border-color: #f7941d;">儲存修改</button>
+                        <button class="btn" id="delete-acc-btn"
+                            style="width: 100%; margin-top: 12px; font-size: 16px; padding: 12px; background: #fee2e2; color: #ef4444; border: 1px solid #ef4444;">刪除帳戶</button>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="form-group" style="margin-top: 16px;">
-                        <label>日期</label>
-                        <input type="date" id="tx-date" class="form-control">
+        <!-- 新增紀錄 Modal (Full Screen) -->
+        <div id="transaction-modal" class="modal-overlay hidden">
+            <div class="modal-content full-screen-modal">
+                <div class="fs-header">
+                    <button class="icon-btn" id="close-tx-modal"><i class="fa-solid fa-xmark"></i></button>
+                    <div class="fs-segmented">
+                        <button class="tx-tab active" data-type="expense">支出</button>
+                        <button class="tx-tab" data-type="income">收入</button>
+                        <button class="tx-tab" data-type="transfer">轉帳</button>
                     </div>
+                    <button class="text-btn" id="save-tx-btn">儲存</button>
+                </div>
 
-                    <div class="form-group" style="margin-top: 16px;">
-                        <label>金額</label>
-                        <input type="number" id="tx-amount" class="form-control" min="1" placeholder="輸入金額">
+                <div class="fs-body" style="flex: 1; overflow-y: auto;">
+                    <div class="fs-date-header" id="fs-tx-date-display">
+                        2026年3月11日 週三
                     </div>
+                    <!-- 隱藏的實際 input date -->
+                    <input type="date" id="tx-date" class="hidden">
 
-                    <div class="form-group" style="margin-top: 16px;">
-                        <label>類別 / 說明</label>
-                        <div style="display: flex; gap: 8px;">
-                            <select id="tx-category" class="form-control" style="width: 100px; flex-shrink: 0;">
+                    <div class="fs-form-list">
+                        <!-- 金額 -->
+                        <div class="fs-form-row">
+                            <div class="fs-form-icon"><i class="fa-solid fa-coins"></i></div>
+                            <div class="fs-form-label">金額</div>
+                            <input type="number" id="tx-amount" class="fs-form-input" placeholder="金額輸入">
+                        </div>
+
+                        <!-- 類別 -->
+                        <div class="fs-form-row" id="row-category">
+                            <div class="fs-form-icon"><i class="fa-solid fa-utensils"></i></div>
+                            <div class="fs-form-label">類別</div>
+                            <select id="tx-category" class="fs-form-select">
+                                <option value="外食">外食</option>
                                 <option value="交通">交通</option>
                                 <option value="生活">生活</option>
-                                <option value="食物">食物</option>
+                                <option value="食材">食材</option>
                                 <option value="水電">水電</option>
-                                <option value="奉獻">奉獻</option>
+                                <option value="網路">網路</option>
+                                <option value="加油">加油</option>
                                 <option value="薪水">薪水</option>
                                 <option value="其他">其他</option>
                             </select>
-                            <input type="text" id="tx-desc" class="form-control" placeholder="(選填說明)" style="flex: 1;"
-                                autocomplete="off">
+                            <i class="fa-solid fa-chevron-right fs-chevron"></i>
+                        </div>
+
+                        <!-- 帳戶 -->
+                        <div class="fs-form-row" id="row-account">
+                            <div class="fs-form-icon" style="color:#f59e0b;"><i class="fa-solid fa-money-bill-wave"></i>
+                            </div>
+                            <div class="fs-form-label" id="lbl-account">帳戶</div>
+                            <select id="tx-account" class="fs-form-select"></select>
+                            <i class="fa-solid fa-chevron-right fs-chevron"></i>
+                        </div>
+
+                        <!-- 轉入帳戶 (轉帳專用) -->
+                        <div class="fs-form-row hidden" id="row-to-account">
+                            <div class="fs-form-icon" style="color:#3b82f6;"><i
+                                    class="fa-solid fa-building-columns"></i></div>
+                            <div class="fs-form-label">轉入帳戶</div>
+                            <select id="tx-to-account" class="fs-form-select"></select>
+                            <i class="fa-solid fa-chevron-right fs-chevron"></i>
+                        </div>
+
+                        <!-- 成員 (Dummy) -->
+                        <div class="fs-form-row" id="row-member">
+                            <div class="fs-form-icon"><i class="fa-solid fa-user"></i></div>
+                            <div class="fs-form-label">成員</div>
+                            <select class="fs-form-select">
+                                <option>小強</option>
+                                <option>無</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-right fs-chevron"></i>
+                        </div>
+
+                        <!-- 不計入選項 -->
+                        <div class="fs-form-row" id="row-exclude">
+                            <div class="fs-form-icon"><i class="fa-solid fa-eye-slash"></i></div>
+                            <div class="fs-form-label">不計入</div>
+                            <select id="tx-exclude" class="fs-form-select">
+                                <option value="none">無</option>
+                                <option value="exclude_io">不計入收支</option>
+                                <option value="exclude_acc">不計入帳戶</option>
+                                <option value="exclude_bud">不計入預算</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-right fs-chevron"></i>
+                        </div>
+
+                        <!-- 標籤 (Dummy) -->
+                        <div class="fs-form-row">
+                            <div class="fs-form-label" style="color: #ccc;">標籤</div>
+                            <i class="fa-solid fa-tag fs-chevron" style="font-size:18px;"></i>
+                        </div>
+
+                        <!-- 相機 (Dummy) -->
+                        <div class="fs-form-row">
+                            <div class="fs-form-label" style="color: #ccc;">收據照片最多 3張</div>
+                            <i class="fa-solid fa-camera" style="color: #f59e0b; font-size:24px;"></i>
                         </div>
                     </div>
 
-                    <button class="btn btn-primary" id="save-tx-btn"
-                        style="width: 100%; margin-top: 24px; font-size: 16px; padding: 12px;">新增至帳簿</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 類別明細與編輯 Modal -->
-        <div id="cat-tx-modal" class="modal-overlay hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 id="cat-tx-title">類別明細</h3>
-                    <button class="close-btn" id="close-cat-tx-modal"><i class="fa-solid fa-times"></i></button>
-                </div>
-                <div class="modal-body">
-                    <div id="cat-tx-list" style="max-height: 400px; overflow-y: auto; padding-right: 4px;">
-                        <!-- JS 將在此處動態生成該類別的紀錄列表 -->
+                    <div class="fs-form-list" style="margin-top: 16px;">
+                        <!-- 備註 -->
+                        <div class="fs-form-row no-border">
+                            <input type="text" id="tx-desc" class="fs-form-input full-width" placeholder="寫點備註吧...">
+                        </div>
                     </div>
                 </div>
+
+                <div id="delete-btn-container" style="padding: 16px; background: white;"></div>
             </div>
         </div>
 
@@ -254,24 +438,12 @@
                             <option value="income">收入</option>
                         </select>
                     </div>
-                    <div class="form-group" style="margin-bottom: 16px;">
-                        <label>交易類別</label>
-                        <select id="filter-cat" class="form-control">
-                            <option value="all">所有類別</option>
-                            <option value="交通">交通</option>
-                            <option value="生活">生活</option>
-                            <option value="食物">食物</option>
-                            <option value="水電">水電</option>
-                            <option value="奉獻">奉獻</option>
-                            <option value="薪水">薪水</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
                     <button class="btn btn-primary" id="apply-filter-btn"
-                        style="width: 100%; margin-top: 10px;">套用篩選</button>
+                        style="width: 100%; margin-top: 10px; background: #f7941d; border-color: #f7941d;">套用篩選</button>
                 </div>
             </div>
         </div>
+
         <!-- 日期/期間 選擇 Modal -->
         <div id="date-picker-modal" class="modal-overlay hidden">
             <div class="modal-content" style="max-width: 320px;">
@@ -280,31 +452,45 @@
                     <button class="close-btn" id="close-date-picker-modal"><i class="fa-solid fa-times"></i></button>
                 </div>
                 <div class="modal-body" style="padding: 10px 0;">
-                    <div id="dp-month-view" class="form-group hidden">
+                    <div id="dp-month-view" class="form-group">
                         <label>選擇月份</label>
                         <input type="month" id="dp-month-input" class="form-control">
                     </div>
-                    <div id="dp-year-view" class="form-group hidden">
+                    <div id="dp-year-view" class="form-group">
                         <label>選擇年份</label>
                         <input type="number" id="dp-year-input" class="form-control" min="2000" max="2100"
                             placeholder="例如: 2026">
                     </div>
-                    <div id="dp-period-view" class="form-group hidden">
-                        <label>開始日期</label>
-                        <input type="date" id="dp-start-input" class="form-control" style="margin-bottom: 15px;">
-                        <label>結束日期</label>
+                    <div id="dp-period-view" class="form-group">
+                        <label>選擇期間</label>
+                        <input type="date" id="dp-start-input" class="form-control" style="margin-bottom: 8px;">
                         <input type="date" id="dp-end-input" class="form-control">
                     </div>
                     <button class="btn btn-primary" id="apply-date-btn"
-                        style="width: 100%; margin-top: 24px;">確定</button>
+                        style="width: 100%; margin-top: 24px; background: #f7941d; border-color: #f7941d;">確定</button>
                 </div>
             </div>
         </div>
+
+        <!-- 類別明細與編輯 Modal -->
+        <div id="cat-tx-modal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="cat-tx-title">類別明細</h3>
+                    <button class="close-btn" id="close-cat-tx-modal"><i class="fa-solid fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cat-tx-list" style="max-height: 400px; overflow-y: auto; padding-right: 4px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- 引入 Chart.js 與 DataLabels 外掛 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script src="./script.js"></script>
 </body>
 
