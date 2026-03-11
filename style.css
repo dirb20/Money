@@ -1,0 +1,593 @@
+/* 總體變數設定 */
+:root {
+    --primary-orange: #f29c42;
+    /* 主題橘色 (對比照片) */
+    --hover-orange: #e88c30;
+    --bg-white: #ffffff;
+    --bg-light: #f5f5f5;
+    /* 背景顏色 */
+    --text-dark: #333333;
+    --text-gray: #7a7a7a;
+    --border-color: #ededed;
+    --dotted-border: #e0e0e0;
+
+    /* 圓餅圖與資料顏色 */
+    --color-traffic: #3b82f6;
+    /* 交通 藍 */
+    --color-life: #ef4444;
+    /* 生活 紅 */
+    --color-food: #f59e0b;
+    /* 食物 橘黃 */
+    --color-utility: #fde047;
+    /* 水電 黃 */
+    --color-donation: #84cc16;
+    /* 奉獻 綠 */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+}
+
+/* 電腦寬版容器限制 (16:9) */
+.app-container {
+    width: 95%;
+    max-width: 1200px;
+    height: 85vh;
+    min-height: 600px;
+    margin-top: 5vh;
+    border-radius: 12px;
+    background-color: var(--bg-white);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 頂部導覽列 (橘色底) */
+.top-bar {
+    background-color: var(--primary-orange);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+}
+
+.top-bar .icon-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-bar .filter-btn {
+    background: white;
+    color: var(--primary-orange);
+    width: 36px;
+    height: 32px;
+    border-radius: 4px;
+    font-size: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.top-bar .filter-btn svg {
+    stroke: var(--primary-orange);
+}
+
+/* 月 / 年 / 期間 切換按鈕 */
+.segmented-control {
+    display: flex;
+    border: 1px solid white;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.segmented-control button {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 6px 22px;
+    font-size: 14px;
+    cursor: pointer;
+    border-right: 1px solid white;
+}
+
+.segmented-control button:last-child {
+    border-right: none;
+}
+
+.segmented-control button.active {
+    background: white;
+    color: var(--primary-orange);
+    font-weight: 500;
+}
+
+/* 日期選擇區塊 */
+.date-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--bg-light);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.date-selector .icon-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.current-date {
+    font-size: 18px;
+    font-weight: 400;
+    color: #111;
+    display: flex;
+    align-items: center;
+}
+
+/* Tab 頁籤 (支出類別比等) */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 14px;
+    font-size: 14px;
+    color: var(--text-gray);
+    cursor: pointer;
+    position: relative;
+}
+
+.tab.active {
+    color: var(--primary-orange);
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-orange);
+}
+
+/* 主內容區 (左右雙欄) */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    /* 防止子元素溢出 */
+}
+
+/* 左側控制面板 (表格、總計) */
+.left-panel {
+    flex: 6;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+}
+
+/* 右側控制面板 (圖表) */
+.right-panel {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fafafa;
+    padding: 24px;
+}
+
+/* 圖表 */
+.chart-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 450px;
+    height: 450px;
+    position: relative;
+}
+
+/* 總計摘要區塊 */
+.summary-section {
+    padding: 20px 16px 12px;
+    display: flex;
+    gap: 20px;
+    font-size: 19px;
+    font-weight: 700;
+    color: #666;
+}
+
+.summary-item span {
+    color: #666;
+}
+
+/* 表格區塊 */
+.table-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header,
+.table-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 2px dotted var(--dotted-border);
+}
+
+/* 表頭特定樣式 */
+.table-header {
+    background: #fafafa;
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 16px;
+    font-weight: 700;
+    color: #333;
+    font-size: 14px;
+}
+
+/* 欄位寬度分配 */
+.col-id {
+    width: 50px;
+}
+
+.col-cat {
+    flex: 1;
+    text-align: left;
+}
+
+.col-amt {
+    flex: 1;
+    text-align: right;
+    font-weight: 700;
+}
+
+.col-ratio {
+    flex: 1;
+    text-align: right;
+    font-weight: 700;
+}
+
+.col-action {
+    width: 30px;
+    text-align: right;
+    color: #aaa;
+    margin-left: 8px;
+}
+
+.col-action i {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* 按鈕樣式 (# 排序按鈕) */
+.sort-btn {
+    background: #f0f0f0;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    color: #222;
+    cursor: pointer;
+}
+
+/* 資料列 */
+.table-row {
+    font-size: 17px;
+    font-weight: 600;
+    padding: 16px 16px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.table-row:hover {
+    background: #fdfdfd;
+}
+
+.table-row .col-id {
+    color: #111;
+    font-size: 18px;
+}
+
+.table-row .col-cat {
+    color: #333;
+    font-size: 17px;
+}
+
+/* 明細列表按鈕 */
+.action-icon-btn {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.action-icon-btn:hover {
+    background: #f0f0f0;
+}
+
+/* FAB 按鈕 */
+.fab-add {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--primary-orange);
+    color: white;
+    font-size: 24px;
+    border: none;
+    box-shadow: 0 4px 10px rgba(242, 156, 66, 0.4);
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.fab-add:active {
+    transform: scale(0.95);
+}
+
+/* Modal 層 */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    color: #333;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 2px rgba(242, 156, 66, 0.2);
+}
+
+.btn {
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--primary-orange);
+    color: white;
+}
+
+/* 收入支出切換按鈕 */
+.tx-type-toggle {
+    display: flex;
+    background: #f0f0f0;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.type-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 8px 0;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.type-btn.active[data-type="expense"] {
+    background: white;
+    color: var(--color-life);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.type-btn.active[data-type="income"] {
+    background: white;
+    color: var(--color-donation);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 響應式佈局 (讓手機依然可以使用原本排版) */
+@media (max-width: 768px) {
+    .app-container {
+        width: 100%;
+        max-width: 100%;
+        height: 100vh;
+        margin-top: 0;
+        border-radius: 0;
+    }
+
+    .main-content {
+        flex-direction: column;
+    }
+
+    .left-panel {
+        border-right: none;
+        overflow-y: visible;
+        /* Let container scroll */
+    }
+
+    .right-panel {
+        padding: 10px;
+    }
+
+    .chart-container {
+        height: 280px;
+    }
+}
+
+#current-month-text {
+    cursor: pointer;
+    transition: opacity 0.2s;
+    user-select: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+#current-month-text:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* 底部導覽列 & 頁面切換 */
+.page-view {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 65px);
+    width: 100%;
+    overflow-y: auto;
+}
+
+.page-view.hidden {
+    display: none !important;
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #ffffff;
+    border-top: 1px solid #eee;
+    height: 65px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #999;
+    font-size: 11px;
+    cursor: pointer;
+    flex: 1;
+    gap: 4px;
+}
+
+.bottom-nav .nav-item i {
+    font-size: 22px;
+}
+
+.bottom-nav .nav-item.active {
+    color: #f59e0b;
+}
+
+.bottom-nav .add-btn {
+    color: #f59e0b;
+}
+
+.bottom-nav .add-btn i {
+    font-size: 32px;
+    margin-bottom: -4px;
+}
+
+/* 隱藏舊的 FAB */
+.fab-add {
+    display: none !important;
+}
+
+/* Ledger mode (hide chart on mobile, adjust layout) */
+.mode-ledger .right-panel {
+    display: none !important;
+}
+
+.mode-ledger .left-panel {
+    flex: 1;
+}
